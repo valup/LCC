@@ -165,15 +165,17 @@ maximum' (NodeBST _ x y) | emptyBST y = x
                          | otherwise  = maximum' y
 
 --2.
-checkMenor :: Ord a => BST a -> a -> Bool
-checkMenor EmptyBST _        = True
-checkMenor (NodeBST _ x _) y = x <= y
+checkMin :: Ord a => BST a -> a -> Bool
+checkMin EmptyBST _        = True
+checkMin (NodeBST z x _) y | x <= y = checkMin z y
+                           | otherwise = False
 
-checkMayor :: Ord a => BST a -> a -> Bool
-checkMayor EmptyBST _        = True
-checkMayor (NodeBST _ x _) y = x >= y
+checkMax :: Ord a => BST a -> a -> Bool
+checkMax EmptyBST _        = True
+checkMax (NodeBST _ x z) y | x >= y = checkMax z y
+                           | otherwise = False
 
 checkBST :: Ord a => BST a -> Bool
 checkBST EmptyBST        = True
-checkBST (NodeBST x y z) = (checkMenor x y) && (checkMayor z y)
+checkBST (NodeBST x y z) = (checkMin x y) && (checkMax z y)
                             && (checkBST x) && (checkBST z)
